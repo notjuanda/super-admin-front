@@ -28,7 +28,7 @@ export const PartidoPoliticoEditModal: React.FC<PartidoPoliticoEditModalProps> =
             sigla: '',
             color: '',
             descripcion: '',
-            estado: 'ACTIVO'
+            estado: 'activo'
         }
     });
     
@@ -41,7 +41,7 @@ export const PartidoPoliticoEditModal: React.FC<PartidoPoliticoEditModalProps> =
                 sigla: partido.sigla,
                 color: partido.color,
                 descripcion: partido.descripcion || '',
-                estado: partido.estado as "ACTIVO" | "INACTIVO" | "SUSPENDIDO"
+                estado: partido.estado.toLowerCase() as any
             });
         }
     }, [partido, open, reset]);
@@ -168,9 +168,9 @@ export const PartidoPoliticoEditModal: React.FC<PartidoPoliticoEditModalProps> =
                                     errors.estado ? 'border-tertiary bg-tertiary/10' : 'border-stroke hover:border-paragraph'
                                 }`}
                             >
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
-                                <option value="SUSPENDIDO">Suspendido</option>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                                <option value="suspendido">Suspendido</option>
                             </select>
                             {errors.estado && (
                                 <div className="flex items-center gap-1 mt-1 text-tertiary text-sm">

@@ -5,6 +5,7 @@ import { UsersPage } from "../../admin/pages/users/UsersPage";
 import SeccionesPage from "../../admin/pages/seccion/SeccionesPage";
 import CandidatosPage from "../../admin/pages/candidatos/CandidatosPage";
 import PartidosPoliticosPage from "../../admin/pages/partidos-politicos/PartidosPoliticosPage";
+import RecintosPage from "../../admin/pages/recintos/RecintosPage";
 
 const router = createBrowserRouter([ 
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 path: "/admin/partidos-politicos",
                 element: <PartidosPoliticosPage />
+            },
+            {
+                path: "/admin/recintos",
+                element: <RecintosPage />
             }
         ]
     },

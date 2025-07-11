@@ -21,8 +21,8 @@ export const partidoPoliticoUpdateSchema = z.object({
         .max(500, 'La descripción no puede exceder 500 caracteres')
         .optional(),
     
-    estado: z.enum(['ACTIVO', 'INACTIVO', 'SUSPENDIDO'], {
-        errorMap: () => ({ message: 'El estado debe ser ACTIVO, INACTIVO o SUSPENDIDO' })
+    estado: z.enum(['activo', 'inactivo', 'suspendido'], {
+        errorMap: () => ({ message: 'El estado debe ser activo, inactivo o suspendido' })
     }).optional()
 });
 
