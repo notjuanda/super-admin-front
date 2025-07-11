@@ -12,8 +12,14 @@ import CandidaturasPage from "../../admin/pages/candidaturas/CandidaturasPage";
 import { MesasPage } from "../../admin/pages/mesas/MesasPage";
 import { RoleGuard } from "../components/RoleGuard";
 import { PapeletaListPage } from "../../admin/pages/papeleta/PapeletaListPage";
+import VerificacionVotantePage from "../../padron/pages/VerificacionVotantePage";
+import VotantesPage from "../../padron/pages/VotantesPage";
 
-const router = createBrowserRouter([ 
+const router = createBrowserRouter([
+    {
+        path: "/verificar-votante",
+        element: <VerificacionVotantePage />
+    },
     {
         path: "/",
         element: <PageLayout />,
@@ -69,6 +75,10 @@ const router = createBrowserRouter([
             {
                 path: "/admin/papeletas/listado",
                 element: <RoleGuard><PapeletaListPage /></RoleGuard>
+            },
+            {
+                path: "/padron/votantes",
+                element: <RoleGuard><VotantesPage /></RoleGuard>
             }
         ]
     },

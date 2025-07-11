@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export function LoginForm() {
-    const { login, loading, error, user } = useAuth();
+    const { login, loading, error, user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -25,13 +25,15 @@ export function LoginForm() {
 
     useEffect(() => {
         if (!user) return;
+        if (user.rol !== 'super_admin') {
+            alert('Este no es su sistema');
+            logout();
+            return;
+        }
         if (location.pathname === '/' || location.pathname === '/login') {
             if (user.rol === 'super_admin') navigate('/admin/dashboard', { replace: true });
-            else if (user.rol === 'admin_elecciones') navigate('/admin/elecciones', { replace: true });
-            else if (user.rol === 'jurado_electoral') navigate('/admin/jurados', { replace: true });
-            else if (user.rol === 'admin_padron') navigate('/admin/padron', { replace: true });
         }
-    }, [user, navigate, location.pathname]);
+    }, [user, navigate, location.pathname, logout]);
 
     return (
         <div className="w-full flex items-center justify-center min-h-screen">

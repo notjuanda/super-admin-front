@@ -15,6 +15,9 @@ function SidebarSuperAdmin({ onLogout }: { onLogout: () => void }) {
         <SidebarLink icon={<FiFileText />} label="Candidaturas" to="/admin/candidaturas" />
         <SidebarLink icon={<FiCheckCircle />} label="Generar papeletas" to="/admin/papeletas" />
         <SidebarLink icon={<FiUsers />} label="Usuarios" to="/admin/usuarios" />
+        <hr className="my-4 border-secondary/40" />
+        <div className="px-4 pb-1 text-xs text-secondary font-semibold uppercase tracking-wider">Padrón Electoral</div>
+        <SidebarLink icon={<FiUsers />} label="Votantes" to="/padron/votantes" />
         <SidebarLogout onLogout={onLogout} />
         </>
     );
