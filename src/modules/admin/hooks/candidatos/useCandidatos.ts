@@ -8,12 +8,15 @@ export function useCandidatos() {
     const [error, setError] = useState<string | null>(null);
 
     const fetchCandidatos = useCallback(async () => {
+        console.log('🔄 useCandidatos - Iniciando fetch de candidatos...');
         setLoading(true);
         setError(null);
         try {
             const response = await getCandidatos();
+            console.log('✅ useCandidatos - Candidatos obtenidos exitosamente:', response.data);
             setCandidatos(response.data);
         } catch (err: any) {
+            console.error('❌ useCandidatos - Error obteniendo candidatos:', err);
             setError(err?.response?.data?.message || 'Error al obtener candidatos');
         } finally {
             setLoading(false);

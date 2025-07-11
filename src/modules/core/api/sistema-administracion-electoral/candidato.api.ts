@@ -1,8 +1,27 @@
 import instance from './instance.api';
 import type { Candidato, CreateCandidatoDto, UpdateCandidatoDto } from '../../types/sistema-administracion-electoral/candidato.types';
 
-export const getCandidatos = () => instance.get<Candidato[]>('/candidatos');
-export const getCandidato = (id: number) => instance.get<Candidato>(`/candidatos/${id}`);
+export const getCandidatos = () => {
+    console.log('📡 API - Obteniendo candidatos...');
+    return instance.get<Candidato[]>('/candidatos').then(response => {
+        console.log('✅ API - Candidatos obtenidos:', response.data);
+        return response;
+    }).catch(error => {
+        console.error('❌ API - Error obteniendo candidatos:', error);
+        throw error;
+    });
+};
+
+export const getCandidato = (id: number) => {
+    console.log('📡 API - Obteniendo candidato ID:', id);
+    return instance.get<Candidato>(`/candidatos/${id}`).then(response => {
+        console.log('✅ API - Candidato obtenido:', response.data);
+        return response;
+    }).catch(error => {
+        console.error('❌ API - Error obteniendo candidato:', error);
+        throw error;
+    });
+};
 
 export const createCandidato = (data: CreateCandidatoDto, file?: File) => {
     const formData = new FormData();

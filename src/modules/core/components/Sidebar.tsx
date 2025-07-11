@@ -1,11 +1,13 @@
 import { useAuth } from '../context/GlobalContext';
-import { FiLogOut, FiUsers, FiMap, FiList, FiBriefcase, FiClipboard, FiFileText, FiCheckCircle, FiMenu } from 'react-icons/fi';
+import { FiLogOut, FiUsers, FiMap, FiList, FiBriefcase, FiClipboard, FiFileText, FiCheckCircle, FiMenu, FiUser, FiFlag } from 'react-icons/fi';
 import { useState } from 'react';
 
 function SidebarSuperAdmin({ onLogout }: { onLogout: () => void }) {
     return (
         <>
         <SidebarLink icon={<FiMap />} label="Secciones" to="/admin/secciones" />
+        <SidebarLink icon={<FiUser />} label="Candidatos" to="/admin/candidatos" />
+        <SidebarLink icon={<FiFlag />} label="Partidos Políticos" to="/admin/partidos-politicos" />
         <SidebarLink icon={<FiList />} label="Elecciones" to="/admin/elecciones" />
         <SidebarLink icon={<FiBriefcase />} label="Cargos" to="/admin/cargos" />
         <SidebarLink icon={<FiClipboard />} label="Mesas electorales" to="/admin/mesas" />

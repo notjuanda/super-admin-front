@@ -2,7 +2,8 @@ export interface PartidoPolitico {
     id: number;
     nombre: string;
     sigla: string;
-    logoUrl: string;
+    color: string;
+    descripcion?: string;
     estado: string;
     createdAt: string;
     updatedAt: string;
@@ -11,13 +12,15 @@ export interface PartidoPolitico {
 export interface CreatePartidoPoliticoDto {
     nombre: string;
     sigla: string;
-    logoUrl: string;
-    estado: string;
+    color: string;
+    descripcion?: string;
+    estado?: string;
 }
 
 export interface UpdatePartidoPoliticoDto {
     nombre?: string;
     sigla?: string;
-    logoUrl?: string;
+    color?: string;
+    descripcion?: string;
     estado?: string;
 } 

@@ -1,26 +1,35 @@
 export interface Candidato {
     id: number;
-    nombre: string;
-    apellido: string;
-    ci: string;
-    fotoUrl: string;
-    partidoId: number;
+    nombres: string;
+    apellidoPaterno: string;
+    apellidoMaterno: string;
+    cedula: string;
+    fechaNacimiento: string;
+    profesion?: string;
+    biografia?: string;
+    fotoUrl?: string;
     createdAt: string;
     updatedAt: string;
 }
 
 export interface CreateCandidatoDto {
-    nombre: string;
-    apellido: string;
-    ci: string;
-    fotoUrl: string;
-    partidoId: number;
+    nombres: string;
+    apellidoPaterno: string;
+    apellidoMaterno: string;
+    cedula: string;
+    fechaNacimiento: string;
+    profesion?: string;
+    biografia?: string;
+    fotoUrl?: string;
 }
 
 export interface UpdateCandidatoDto {
-    nombre?: string;
-    apellido?: string;
-    ci?: string;
+    nombres?: string;
+    apellidoPaterno?: string;
+    apellidoMaterno?: string;
+    cedula?: string;
+    fechaNacimiento?: string;
+    profesion?: string;
+    biografia?: string;
     fotoUrl?: string;
-    partidoId?: number;
 } 
