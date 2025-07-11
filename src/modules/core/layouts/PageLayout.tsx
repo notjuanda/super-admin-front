@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import type { PageLayoutProps } from "../types/page-layout.type";
 import { Sidebar } from "../components/Sidebar";
 import { GlobalProvider } from "../providers/GlobalProvider";
+import { RoleGuard } from "../components/RoleGuard";
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     const location = useLocation();

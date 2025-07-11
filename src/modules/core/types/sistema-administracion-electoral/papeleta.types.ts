@@ -24,4 +24,13 @@ export interface Papeleta {
     seccionId: number;
     seccionNombre: string;
     cargos: CargoPapeleta[];
+}
+
+export interface PapeletaEntity {
+    id: number;
+    seccionId: number;
+    eleccionId: number;
+    estructura: Papeleta;
+    createdAt: string;
+    estado: string;
 } 

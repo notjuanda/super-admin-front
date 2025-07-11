@@ -4,11 +4,12 @@ import { useAuth } from '../../core/context/GlobalContext';
 import { loginSchema, type LoginFormData } from '../schemas/login.schema';
 import { FiMail, FiLock, FiUser } from 'react-icons/fi';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export function LoginForm() {
     const { login, loading, error, user } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     
     const {
         register,
@@ -24,11 +25,13 @@ export function LoginForm() {
 
     useEffect(() => {
         if (!user) return;
-        if (user.rol === 'super_admin') navigate('/admin/dashboard', { replace: true });
-        else if (user.rol === 'admin_elecciones') navigate('/admin/elecciones', { replace: true });
-        else if (user.rol === 'jurado_electoral') navigate('/admin/jurados', { replace: true });
-        else if (user.rol === 'admin_padron') navigate('/admin/padron', { replace: true });
-    }, [user, navigate]);
+        if (location.pathname === '/' || location.pathname === '/login') {
+            if (user.rol === 'super_admin') navigate('/admin/dashboard', { replace: true });
+            else if (user.rol === 'admin_elecciones') navigate('/admin/elecciones', { replace: true });
+            else if (user.rol === 'jurado_electoral') navigate('/admin/jurados', { replace: true });
+            else if (user.rol === 'admin_padron') navigate('/admin/padron', { replace: true });
+        }
+    }, [user, navigate, location.pathname]);
 
     return (
         <div className="w-full flex items-center justify-center min-h-screen">
