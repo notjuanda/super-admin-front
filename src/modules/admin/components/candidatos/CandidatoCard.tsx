@@ -94,6 +94,12 @@ export function CandidatoCard({ candidato, partidosPoliticos = [], onClick, onEd
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-secondary/30 rounded-lg">
+                <span className="text-paragraph text-xs sm:text-sm font-medium">
+                    Candidatura: {candidato.candidaturaId ? `#${candidato.candidaturaId}` : 'Sin asignar'}
+                </span>
+            </div>
+
+            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-secondary/30 rounded-lg">
             <FiCalendar className="text-paragraph text-xs sm:text-sm flex-shrink-0" />
             <div className="text-paragraph text-xs">
                 <div>Creado: {formatDate(candidato.createdAt)}</div>

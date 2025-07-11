@@ -34,6 +34,12 @@ export const SeccionCreateModal: React.FC<SeccionCreateModalProps> = ({ open, on
     }
   }, [success, onCreated, onClose, reset, setSuccess]);
 
+  React.useEffect(() => {
+    if (!open) {
+      reset();
+    }
+  }, [open, reset]);
+
   if (!open) return null;
 
   const handleCreate = (data: SeccionCreateForm) => {
@@ -65,6 +71,11 @@ export const SeccionCreateModal: React.FC<SeccionCreateModalProps> = ({ open, on
     });
   };
 
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-main rounded-2xl shadow-2xl p-8 w-full max-w-4xl mx-4 animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
@@ -80,7 +91,7 @@ export const SeccionCreateModal: React.FC<SeccionCreateModalProps> = ({ open, on
             </div>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-2 hover:bg-secondary rounded-full transition-colors"
           >
             <FiX className="text-paragraph text-lg" />
@@ -292,7 +303,7 @@ export const SeccionCreateModal: React.FC<SeccionCreateModalProps> = ({ open, on
           <div className="flex gap-3 justify-end pt-4 border-t border-stroke">
             <button 
               type="button" 
-              onClick={onClose} 
+              onClick={handleClose} 
               className="px-6 py-3 rounded-lg bg-secondary text-headline hover:bg-secondary/80 transition-all duration-200 font-semibold min-w-[100px]"
             >
               Cancelar

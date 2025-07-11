@@ -10,7 +10,7 @@ import type { PartidoPolitico } from '../../../core/types/sistema-administracion
 
 export default function PartidosPoliticosPage() {
     const { partidosPoliticos, loading, error, fetchPartidosPoliticos } = usePartidosPoliticos();
-    const { deletePartido, loading: deleteLoading, error: deleteError, success: deleteSuccess, clearError: clearDeleteError, clearSuccess: clearDeleteSuccess } = useDeletePartidoPolitico();
+    const { deletePartido, error: deleteError, success: deleteSuccess, clearError: clearDeleteError, clearSuccess: clearDeleteSuccess } = useDeletePartidoPolitico();
     const [searchTerm, setSearchTerm] = useState('');
     const [filterEstado, setFilterEstado] = useState('');
     const [showCreateModal, setShowCreateModal] = useState(false);

@@ -4,6 +4,7 @@ export interface Recinto {
     descripcion?: string;
     latitud: number;
     longitud: number;
+    seccionId: number;
 }
 
 export interface CreateRecintoDto {
@@ -11,6 +12,7 @@ export interface CreateRecintoDto {
     descripcion?: string;
     latitud: number;
     longitud: number;
+    seccionId: number;
 }
 
 export interface UpdateRecintoDto {
@@ -18,4 +20,5 @@ export interface UpdateRecintoDto {
     descripcion?: string;
     latitud?: number;
     longitud?: number;
+    seccionId?: number;
 } 

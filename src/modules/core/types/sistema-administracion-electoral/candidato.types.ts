@@ -20,7 +20,6 @@ export interface CreateCandidatoDto {
     fechaNacimiento: string;
     profesion?: string;
     biografia?: string;
-    fotoUrl?: string;
 }
 
 export interface UpdateCandidatoDto {
@@ -31,5 +30,4 @@ export interface UpdateCandidatoDto {
     fechaNacimiento?: string;
     profesion?: string;
     biografia?: string;
-    fotoUrl?: string;
 } 

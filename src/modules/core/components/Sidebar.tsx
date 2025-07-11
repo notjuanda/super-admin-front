@@ -7,11 +7,11 @@ function SidebarSuperAdmin({ onLogout }: { onLogout: () => void }) {
         <>
         <SidebarLink icon={<FiMap />} label="Secciones" to="/admin/secciones" />
         <SidebarLink icon={<FiMapPin />} label="Recintos" to="/admin/recintos" />
-        <SidebarLink icon={<FiUser />} label="Candidatos" to="/admin/candidatos" />
-        <SidebarLink icon={<FiFlag />} label="Partidos Políticos" to="/admin/partidos-politicos" />
-        <SidebarLink icon={<FiList />} label="Elecciones" to="/admin/elecciones" />
-        <SidebarLink icon={<FiBriefcase />} label="Cargos" to="/admin/cargos" />
         <SidebarLink icon={<FiClipboard />} label="Mesas electorales" to="/admin/mesas" />
+        <SidebarLink icon={<FiBriefcase />} label="Cargos" to="/admin/cargos" />
+        <SidebarLink icon={<FiFlag />} label="Partidos Políticos" to="/admin/partidos-politicos" />
+        <SidebarLink icon={<FiUser />} label="Candidatos" to="/admin/candidatos" />
+        <SidebarLink icon={<FiList />} label="Elecciones" to="/admin/elecciones" />
         <SidebarLink icon={<FiFileText />} label="Candidaturas" to="/admin/candidaturas" />
         <SidebarLink icon={<FiCheckCircle />} label="Generar papeletas" to="/admin/papeletas" />
         <SidebarLink icon={<FiUsers />} label="Usuarios" to="/admin/usuarios" />

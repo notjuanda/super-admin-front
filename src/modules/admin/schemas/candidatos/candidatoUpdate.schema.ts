@@ -7,7 +7,8 @@ export const candidatoUpdateSchema = z.object({
     cedula: z.string().min(5, 'La cédula debe tener al menos 5 caracteres').max(15, 'La cédula no puede exceder 15 caracteres').optional(),
     fechaNacimiento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'La fecha debe estar en formato YYYY-MM-DD').optional(),
     profesion: z.string().optional(),
-    biografia: z.string().optional()
+    biografia: z.string().optional(),
+    candidaturaId: z.number().optional(),
 });
 
 export type CandidatoUpdateForm = z.infer<typeof candidatoUpdateSchema>; 

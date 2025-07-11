@@ -1,8 +1,9 @@
 import React from 'react';
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker, Polygon } from '@react-google-maps/api';
 import type { Recinto } from '../../../core/types/sistema-administracion-electoral/recinto.types';
 import { useGoogleMaps } from '../../../core/hooks/useGoogleMaps';
 import { FiMapPin, FiInfo, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { useSeccion } from '../../hooks/seccion/useSeccion';
 
 const containerStyle = {
     width: '100%',
@@ -28,6 +29,10 @@ export const RecintosMap: React.FC<RecintosMapProps> = ({
 }) => {
     const { isLoaded } = useGoogleMaps();
     const mapRef = React.useRef<google.maps.Map | null>(null);
+
+    // Obtener el recinto seleccionado y su sección
+    const selectedRecinto = selectedRecintoId ? recintos.find(r => r.id === selectedRecintoId) : null;
+    const { seccion } = useSeccion(selectedRecinto?.seccionId);
 
     React.useEffect(() => {
         if (!mapRef.current) return;
@@ -78,6 +83,23 @@ export const RecintosMap: React.FC<RecintosMapProps> = ({
                     ]
                 }}
             >
+                {/* Dibuja el polígono de la sección del recinto seleccionado */}
+                {selectedRecinto && seccion && seccion.puntos.length > 0 && (
+                    <Polygon
+                        path={seccion.puntos
+                            .sort((a, b) => Number(a.orden) - Number(b.orden))
+                            .map(p => ({ lat: Number(p.latitud), lng: Number(p.longitud) }))}
+                        options={{
+                            fillColor: '#6246ea',
+                            fillOpacity: 0.3,
+                            strokeColor: '#6246ea',
+                            strokeOpacity: 0.9,
+                            strokeWeight: 4,
+                            clickable: false,
+                            zIndex: 20,
+                        }}
+                    />
+                )}
                 {recintos.length === 0 && (
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-main/95 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-stroke">
                         <div className="text-center">

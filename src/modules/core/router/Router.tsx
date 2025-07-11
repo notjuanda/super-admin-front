@@ -6,6 +6,9 @@ import SeccionesPage from "../../admin/pages/seccion/SeccionesPage";
 import CandidatosPage from "../../admin/pages/candidatos/CandidatosPage";
 import PartidosPoliticosPage from "../../admin/pages/partidos-politicos/PartidosPoliticosPage";
 import RecintosPage from "../../admin/pages/recintos/RecintosPage";
+import EleccionesPage from "../../admin/pages/elecciones/EleccionesPage";
+import CargosPage from "../../admin/pages/cargos/CargosPage";
+import CandidaturasPage from "../../admin/pages/candidaturas/CandidaturasPage";
 
 const router = createBrowserRouter([ 
     {
@@ -39,6 +42,18 @@ const router = createBrowserRouter([
             {
                 path: "/admin/recintos",
                 element: <RecintosPage />
+            },
+            {
+                path: "/admin/elecciones",
+                element: <EleccionesPage />
+            },
+            {
+                path: "/admin/cargos",
+                element: <CargosPage />
+            },
+            {
+                path: "/admin/candidaturas",
+                element: <CandidaturasPage />
             }
         ]
     },

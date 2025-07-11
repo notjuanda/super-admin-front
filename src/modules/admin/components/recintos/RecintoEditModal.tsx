@@ -4,10 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUpdateRecinto } from '../../hooks/recintos/useUpdateRecinto';
 import { recintoUpdateSchema } from '../../schemas/recintos/recintoUpdate.schema';
 import type { RecintoUpdateForm } from '../../schemas/recintos/recintoUpdate.schema';
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker, Polygon } from '@react-google-maps/api';
 import { useGoogleMaps } from '../../../core/hooks/useGoogleMaps';
 import { FiMapPin, FiX, FiCheckCircle, FiAlertCircle, FiInfo } from 'react-icons/fi';
 import type { Recinto } from '../../../core/types/sistema-administracion-electoral/recinto.types';
+import { useSeccion } from '../../hooks/seccion/useSeccion';
+import { useState } from 'react';
 
 interface RecintoEditModalProps {
     open: boolean;
@@ -15,6 +17,20 @@ interface RecintoEditModalProps {
     onUpdated?: () => void;
     recinto: Recinto | null;
 }
+
+// --- FUNCION PARA VERIFICAR SI UN PUNTO ESTA DENTRO DE UN POLIGONO ---
+function isPointInPolygon(point: { lat: number; lng: number }, polygon: { lat: number; lng: number }[]): boolean {
+    let inside = false;
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        const xi = polygon[i].lat, yi = polygon[i].lng;
+        const xj = polygon[j].lat, yj = polygon[j].lng;
+        const intersect = ((yi > point.lng) !== (yj > point.lng)) &&
+            (point.lat < (xj - xi) * (point.lng - yi) / (yj - yi + 0.0000001) + xi);
+        if (intersect) inside = !inside;
+    }
+    return inside;
+}
+// --- FIN FUNCION ---
 
 export const RecintoEditModal: React.FC<RecintoEditModalProps> = ({ 
     open, 
@@ -37,6 +53,8 @@ export const RecintoEditModal: React.FC<RecintoEditModalProps> = ({
     const watchedLatitud = watch('latitud');
     const watchedLongitud = watch('longitud');
     const [selectedPosition, setSelectedPosition] = React.useState<{ lat: number; lng: number } | null>(null);
+    const { seccion } = useSeccion(recinto?.seccionId);
+    const [warning, setWarning] = useState<string | null>(null);
 
     React.useEffect(() => {
         if (recinto && open) {
@@ -63,6 +81,17 @@ export const RecintoEditModal: React.FC<RecintoEditModalProps> = ({
         }
     }, [watchedLatitud, watchedLongitud]);
 
+    const handleClose = () => {
+        reset();
+        onClose();
+    };
+
+    React.useEffect(() => {
+        if (!open) {
+            reset();
+        }
+    }, [open, reset]);
+
     if (!open || !recinto) return null;
 
     const handleUpdate = (data: RecintoUpdateForm) => {
@@ -71,11 +100,28 @@ export const RecintoEditModal: React.FC<RecintoEditModalProps> = ({
 
     const handleMapClick = (e: google.maps.MapMouseEvent) => {
         if (!e.latLng) return;
+        setWarning(null);
         const lat = e.latLng.lat();
         const lng = e.latLng.lng();
+        // Validar solo si hay sección y polígono
+        if (!seccion || !seccion.puntos.length) {
+            setWarning('No se puede ubicar el punto porque la sección no tiene polígono definido.');
+            return;
+        }
+        const polygon = seccion.puntos
+            .sort((a, b) => Number(a.orden) - Number(b.orden))
+            .map(p => ({ lat: Number(p.latitud), lng: Number(p.longitud) }));
+        if (!isPointInPolygon({ lat, lng }, polygon)) {
+            setWarning('Debes seleccionar un punto dentro de la sección.');
+            return;
+        }
         setValue('latitud', lat);
         setValue('longitud', lng);
         setSelectedPosition({ lat, lng });
+    };
+    // Permitir click sobre el polígono para ubicar el punto
+    const handlePolygonClick = (e: google.maps.MapMouseEvent) => {
+        handleMapClick(e);
     };
 
     return (
@@ -88,11 +134,11 @@ export const RecintoEditModal: React.FC<RecintoEditModalProps> = ({
                         </div>
                         <div>
                             <h3 className="text-xl font-bold text-headline">Editar Recinto</h3>
-                            <p className="text-sm text-paragraph">Modifica la información del recinto electoral</p>
+                            <p className="text-sm text-paragraph">Modifica la información del recinto</p>
                         </div>
                     </div>
                     <button
-                        onClick={onClose}
+                        onClick={handleClose}
                         className="p-2 hover:bg-secondary rounded-full transition-colors"
                     >
                         <FiX className="text-paragraph text-lg" />
@@ -218,6 +264,24 @@ export const RecintoEditModal: React.FC<RecintoEditModalProps> = ({
                                         ]
                                     }}
                                 >
+                                    {/* Dibuja el polígono de la sección */}
+                                    {seccion && seccion.puntos.length > 0 && (
+                                        <Polygon
+                                            path={seccion.puntos
+                                                .sort((a, b) => Number(a.orden) - Number(b.orden))
+                                                .map(p => ({ lat: Number(p.latitud), lng: Number(p.longitud) }))}
+                                            options={{
+                                                fillColor: '#6246ea',
+                                                fillOpacity: 0.4,
+                                                strokeColor: '#6246ea',
+                                                strokeOpacity: 0.9,
+                                                strokeWeight: 4,
+                                                clickable: true,
+                                                zIndex: 10,
+                                            }}
+                                            onClick={handlePolygonClick}
+                                        />
+                                    )}
                                     {selectedPosition && (
                                         <Marker
                                             position={selectedPosition}
@@ -247,6 +311,13 @@ export const RecintoEditModal: React.FC<RecintoEditModalProps> = ({
                         </div>
                     </div>
 
+                    {warning && (
+                        <div className="flex items-center gap-2 p-3 bg-tertiary/10 border border-tertiary/20 rounded-lg mt-2">
+                            <FiAlertCircle className="text-tertiary flex-shrink-0" />
+                            <span className="text-tertiary text-sm">{warning}</span>
+                        </div>
+                    )}
+
                     {error && (
                         <div className="flex items-center gap-2 p-3 bg-tertiary/10 border border-tertiary/20 rounded-lg">
                             <FiAlertCircle className="text-tertiary flex-shrink-0" />
@@ -264,7 +335,7 @@ export const RecintoEditModal: React.FC<RecintoEditModalProps> = ({
                     <div className="flex gap-3 justify-end pt-4 border-t border-stroke">
                         <button 
                             type="button" 
-                            onClick={onClose} 
+                            onClick={handleClose} 
                             className="px-6 py-3 rounded-lg bg-secondary text-headline hover:bg-secondary/80 transition-all duration-200 font-semibold min-w-[100px]"
                         >
                             Cancelar

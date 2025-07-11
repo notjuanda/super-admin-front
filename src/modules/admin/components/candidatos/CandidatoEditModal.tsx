@@ -7,6 +7,7 @@ import type { CandidatoUpdateForm } from '../../schemas/candidatos/candidatoUpda
 import type { Candidato } from '../../../core/types/sistema-administracion-electoral/candidato.types';
 import { FiUser, FiX, FiUpload, FiCheckCircle, FiAlertCircle, FiCamera, FiTrash2 } from 'react-icons/fi';
 import { buildImageUrl } from '../../../../shared/utils/image.utils';
+import { useCandidaturas } from '../../hooks/candidaturas/useCandidaturas';
 
 interface CandidatoEditModalProps {
     open: boolean;
@@ -206,6 +207,46 @@ export const CandidatoEditModal: React.FC<CandidatoEditModalProps> = ({
                     <div className="flex items-center gap-1 mt-1 text-tertiary text-sm">
                     <FiAlertCircle className="text-xs" />
                     {errors.fechaNacimiento.message}
+                    </div>
+                )}
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                <label className="block text-sm font-medium text-headline mb-2">
+                    Profesión
+                </label>
+                <input 
+                    {...register('profesion')} 
+                    className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-button focus:border-transparent ${
+                    errors.profesion ? 'border-tertiary bg-tertiary/10' : 'border-stroke hover:border-paragraph'
+                    }`} 
+                    placeholder="Ej: Abogado"
+                />
+                {errors.profesion && (
+                    <div className="flex items-center gap-1 mt-1 text-tertiary text-sm">
+                    <FiAlertCircle className="text-xs" />
+                    {errors.profesion.message}
+                    </div>
+                )}
+                </div>
+
+                <div>
+                <label className="block text-sm font-medium text-headline mb-2">
+                    Biografía
+                </label>
+                <textarea 
+                    {...register('biografia')} 
+                    className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-button focus:border-transparent ${
+                    errors.biografia ? 'border-tertiary bg-tertiary/10' : 'border-stroke hover:border-paragraph'
+                    }`} 
+                    placeholder="Describe tus logros y experiencia"
+                />
+                {errors.biografia && (
+                    <div className="flex items-center gap-1 mt-1 text-tertiary text-sm">
+                    <FiAlertCircle className="text-xs" />
+                    {errors.biografia.message}
                     </div>
                 )}
                 </div>
